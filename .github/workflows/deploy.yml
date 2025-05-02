@@ -8,29 +8,26 @@ on:
       - 'functions/hello-world/**'
       - '.github/workflows/deploy.yml'
 
-permissions:
-  id-token: write
-  contents: read
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
         with:
-          token_format: access_token
-          workload_identity_provider: 'projects/857835268341/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
+          workload_identity_provider: 'projects/857835268341/locations/global/workloadIdentityPools/githubactions/providers/github-provider'
           service_account: 'github-actions-deployer-calm-c@calm-cab-458210-t2.iam.gserviceaccount.com'
 
-      - name: Set up Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v2
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
 
-      - name: Deploy Cloud Function
+      - name: 'Deploy Cloud Function'
         run: |
           cd functions/hello-world
           gcloud functions deploy hello-world \

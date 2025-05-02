@@ -32,6 +32,7 @@ jobs:
           workload_identity_provider: projects/857835268341/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider
           service_account: cloud-functions-deployer@calm-cab-458210-t2.iam.gserviceaccount.com
           token_format: access_token
+          access_token_lifetime: 3600s
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2

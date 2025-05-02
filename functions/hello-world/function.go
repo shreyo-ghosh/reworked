@@ -48,7 +48,7 @@ func HelloWorld(w http.ResponseWriter, r *http.Request) {
 	// Create response
 	response := Response{
 		Message: "Hello from CarbonQuest!",
-		Version: "1.0.4",
+		Version: "1.0.5",
 		Project: projectID,
 		Status:  "success",
 		Time:    time.Now().Format(time.RFC3339),

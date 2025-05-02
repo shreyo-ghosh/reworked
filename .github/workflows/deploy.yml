@@ -3,7 +3,7 @@ name: Deploy Cloud Function
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - 'functions/hello-world/**'
       - '.github/workflows/deploy.yml'

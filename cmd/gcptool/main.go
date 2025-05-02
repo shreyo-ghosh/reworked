@@ -15,8 +15,7 @@ It supports deployment to different environments and provides function informati
 }
 
 func init() {
-	rootCmd.AddCommand(deployCmd)
-	rootCmd.AddCommand(describeCmd)
+	rootCmd.AddCommand(DeployCmd)
 }
 
 func main() {

@@ -2,106 +2,39 @@ name: Deploy Cloud Function
 
 on:
   push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
-
-env:
-  GCP_PROJECT_ID: calm-cab-458210-t2
-  GCP_REGION: us-central1
-  FUNCTION_NAME: hello-world
+    branches:
+      - master
+    paths:
+      - 'functions/hello-world/**'
+      - '.github/workflows/deploy.yml'
 
 jobs:
-  test-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        environment: [sandbox, staging, production]
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Set up Go
-        uses: actions/setup-go@v4
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
         with:
-          go-version: '1.21'
+          workload_identity_provider: 'projects/calm-cab-458210-t2/locations/global/workloadIdentityPools/github-actions/providers/github-provider'
+          service_account: 'github-actions@calm-cab-458210-t2.iam.gserviceaccount.com'
 
-      - name: Install dependencies
-        run: go mod download
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
 
-      - name: Run tests
-        run: go test -v ./...
-
-      - name: Configure GCP credentials
-        uses: google-github-actions/auth@v1
-        with:
-          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
-
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
-        with:
-          project_id: ${{ env.GCP_PROJECT_ID }}
-
-      - name: Deploy to ${{ matrix.environment }}
-        if: github.event_name == 'push' && success()
+      - name: 'Deploy Cloud Function'
         run: |
-          # Set environment-specific variables
-          if [ "${{ matrix.environment }}" = "production" ]; then
-            export FUNCTION_SUFFIX="-prod"
-            export MEMORY="512MB"
-            export MIN_INSTANCES="1"
-          elif [ "${{ matrix.environment }}" = "staging" ]; then
-            export FUNCTION_SUFFIX="-staging"
-            export MEMORY="256MB"
-            export MIN_INSTANCES="0"
-          else
-            export FUNCTION_SUFFIX="-sandbox"
-            export MEMORY="128MB"
-            export MIN_INSTANCES="0"
-          fi
-
-          # Deploy the function
-          gcloud functions deploy ${{ env.FUNCTION_NAME }}$FUNCTION_SUFFIX \
-            --runtime go121 \
+          cd functions/hello-world
+          gcloud functions deploy hello-world \
+            --gen2 \
+            --runtime=go121 \
+            --region=us-central1 \
+            --source=. \
+            --entry-point=HelloWorld \
             --trigger-http \
-            --allow-unauthenticated \
-            --region ${{ env.GCP_REGION }} \
-            --source functions/hello-world \
-            --entry-point HelloWorld \
-            --memory $MEMORY \
-            --timeout 60s \
-            --min-instances $MIN_INSTANCES \
-            --max-instances 10 \
-            --set-env-vars "GOOGLE_CLOUD_PROJECT=${{ env.GCP_PROJECT_ID }}"
-
-      - name: Verify Deployment
-        if: success()
-        run: |
-          # Get function URL
-          FUNCTION_URL=$(gcloud functions describe ${{ env.FUNCTION_NAME }}$FUNCTION_SUFFIX \
-            --region ${{ env.GCP_REGION }} \
-            --format='get(httpsTrigger.url)')
-          
-          # Test the function
-          echo "Testing function at: $FUNCTION_URL"
-          RESPONSE=$(curl -s $FUNCTION_URL)
-          echo "Response: $RESPONSE"
-          
-          # Check response
-          if echo "$RESPONSE" | grep -q "success"; then
-            echo "Function deployed successfully to ${{ matrix.environment }}"
-          else
-            echo "Function deployment verification failed"
-            exit 1
-          fi
-
-      - name: Notify on failure
-        if: failure()
-        uses: actions/github-script@v6
-        with:
-          script: |
-            github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: 'Deployment failed to ${{ matrix.environment }}',
-              body: 'The deployment to ${{ matrix.environment }} failed. Please check the logs for details.'
-            }) 
+            --allow-unauthenticated 

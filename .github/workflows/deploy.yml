@@ -2,9 +2,9 @@ name: Deploy Cloud Function
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, master ]
 
 env:
   GCP_PROJECT_ID: calm-cab-458210-t2
@@ -48,12 +48,15 @@ jobs:
           if [ "${{ matrix.environment }}" = "production" ]; then
             export FUNCTION_SUFFIX="-prod"
             export MEMORY="512MB"
+            export MIN_INSTANCES="1"
           elif [ "${{ matrix.environment }}" = "staging" ]; then
             export FUNCTION_SUFFIX="-staging"
             export MEMORY="256MB"
+            export MIN_INSTANCES="0"
           else
             export FUNCTION_SUFFIX="-sandbox"
             export MEMORY="128MB"
+            export MIN_INSTANCES="0"
           fi
 
           # Deploy the function
@@ -66,22 +69,24 @@ jobs:
             --entry-point HelloWorld \
             --memory $MEMORY \
             --timeout 60s \
-            --min-instances 0 \
-            --max-instances 10
+            --min-instances $MIN_INSTANCES \
+            --max-instances 10 \
+            --set-env-vars "GOOGLE_CLOUD_PROJECT=${{ env.GCP_PROJECT_ID }}"
 
       - name: Verify Deployment
         if: success()
         run: |
           # Get function URL
-          FUNCTION_URL=$(gcloud functions describe ${{ env.FUNCTION_NAME }}-${{ matrix.environment }} \
+          FUNCTION_URL=$(gcloud functions describe ${{ env.FUNCTION_NAME }}$FUNCTION_SUFFIX \
             --region ${{ env.GCP_REGION }} \
             --format='get(httpsTrigger.url)')
           
           # Test the function
-          curl -s $FUNCTION_URL
+          echo "Testing function at: $FUNCTION_URL"
+          RESPONSE=$(curl -s $FUNCTION_URL)
+          echo "Response: $RESPONSE"
           
           # Check response
-          RESPONSE=$(curl -s $FUNCTION_URL)
           if echo "$RESPONSE" | grep -q "success"; then
             echo "Function deployed successfully to ${{ matrix.environment }}"
           else

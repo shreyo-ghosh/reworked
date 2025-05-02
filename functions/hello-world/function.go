@@ -9,8 +9,8 @@ import (
 	"os"
 	"time"
 
-	"carbonquest/pkg/errors"
-	"carbonquest/pkg/monitoring"
+	"github.com/shreyo-ghosh/carbonquest-assignment/functions/hello-world/pkg/errors"
+	"github.com/shreyo-ghosh/carbonquest-assignment/functions/hello-world/pkg/monitoring"
 )
 
 // Response is the structure for our HTTP response

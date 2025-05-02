@@ -1,4 +1,4 @@
-module example.com/function
+module carbonquest
 
 go 1.22
 
@@ -8,6 +8,6 @@ require (
 )
 
 replace (
-	carbonquest/pkg/errors => ../../pkg/errors
-	carbonquest/pkg/monitoring => ../../pkg/monitoring
+	carbonquest/pkg/errors => ./pkg/errors
+	carbonquest/pkg/monitoring => ./pkg/monitoring
 ) 

@@ -51,5 +51,5 @@ jobs:
             --trigger-http \
             --allow-unauthenticated \
             --quiet \
-            --service-account=cloud-functions-deployer@calm-cab-458210-t2.iam.gserviceaccount.com
+            --impersonate-service-account=cloud-functions-deployer@calm-cab-458210-t2.iam.gserviceaccount.com
             

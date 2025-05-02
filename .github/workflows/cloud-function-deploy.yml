@@ -32,9 +32,9 @@ jobs:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
 
-      - name: Deploy Cloud Function
+      - name: Deploy Cloud Function 1
         run: |
-          gcloud functions deploy hello-world \
+           gcloud functions deploy hello-world \
             --project ${{ env.PROJECT_ID }} \
             --region ${{ env.REGION }} \
             --runtime go122 \
@@ -44,4 +44,5 @@ jobs:
             --memory 128MB \
             --timeout 60s \
             --min-instances 0 \
-            --max-instances 1
+            --max-instances 2
+             --service-account github-actions-deployer-new@calm-cab-458210-t2.iam.gserviceaccount.com

@@ -42,10 +42,12 @@ jobs:
           cd functions/hello-world
           gcloud functions deploy hello-world \
             --gen2 \
-            --runtime=go121 \
+            --runtime=go122 \
             --region=${{ env.REGION }} \
             --source=. \
             --entry-point=HelloWorld \
             --trigger-http \
             --allow-unauthenticated \
             --quiet 
+            --service-account github-actions-deployer-new@calm-cab-458210-t2.iam.gserviceaccount.com
+            

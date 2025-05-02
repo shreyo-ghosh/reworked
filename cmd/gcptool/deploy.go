@@ -88,7 +88,7 @@ func deployFunctionWithExecutor(functionName, env, version string, executor Comm
 		"functions",
 		"deploy",
 		functionName + suffix,
-		"--runtime", "go121",
+		"--runtime", "go122",
 		"--trigger-http",
 		"--allow-unauthenticated",
 		"--region", "us-central1",

@@ -2,7 +2,7 @@
 $PROJECT_ID = "calm-cab-458210-t2"
 $FUNCTION_NAME = "hello-world-staging"
 $REGION = "us-central1"
-$RUNTIME = "go121"
+$RUNTIME = "go122"
 $MEMORY = "256MB"
 $TIMEOUT = "60s"
 $MIN_INSTANCES = "0"

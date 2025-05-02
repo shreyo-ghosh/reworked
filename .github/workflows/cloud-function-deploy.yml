@@ -41,4 +41,4 @@ jobs:
             --source=. \
             --entry-point=HelloWorld \
             --trigger-http \
-            --allow-unauthenticated 
+            --allow-unauthenticated

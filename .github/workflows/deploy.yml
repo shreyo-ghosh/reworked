@@ -17,7 +17,7 @@ jobs:
       PROJECT_ID: calm-cab-458210-t2
       REGION: us-central1
       SERVICE_ACCOUNT: cloud-functions-deployer@calm-cab-458210-t2.iam.gserviceaccount.com
-      CLOUD_BUILD_SERVICE_ACCOUNT: cloud-build-service-account@calm-cab-458210-t2.iam.gserviceaccount.com
+      CLOUD_BUILD_SERVICE_ACCOUNT: projects/calm-cab-458210-t2/serviceAccounts/cloud-build-service-account@calm-cab-458210-t2.iam.gserviceaccount.com
 
     steps:
     - name: Checkout code

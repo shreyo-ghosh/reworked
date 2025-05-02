@@ -86,4 +86,4 @@ go test -v ./...
 
 ## License
 
-MIT License ..
+MIT License

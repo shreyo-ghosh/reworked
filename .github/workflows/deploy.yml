@@ -13,7 +13,7 @@ permissions:
   id-token: write
 
 env:
-  PROJECT_ID: 857835268341
+  PROJECT_ID: calm-cab-458210-t2
   REGION: us-central1
 
 jobs:

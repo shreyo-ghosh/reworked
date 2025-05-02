@@ -6,7 +6,7 @@ on:
       - master
     paths:
       - 'functions/hello-world/**'
-      - '.github/workflows/deploy.yml'
+      - '.github/workflows/cloud-function-deploy.yml'
 
 permissions:
   contents: read
@@ -19,25 +19,19 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - id: auth
-        name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
-          create_credentials_file: true
-          workload_identity_provider: projects/857835268341/locations/global/workloadIdentityPools/github-actions/providers/github-provider
-          service_account: github-actions-deployer-calm-c@calm-cab-458210-t2.iam.gserviceaccount.com
+          workload_identity_provider: projects/calm-cab-458210-t2/locations/global/workloadIdentityPools/github-actions/providers/github-provider
+          service_account: github-actions-deployer-new@calm-cab-458210-t2.iam.gserviceaccount.com
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
-        with:
-          project_id: ${{ env.PROJECT_ID }}
 
-      - name: Deploy Cloud Function
+      - name: Deploy Function
         run: |
           cd functions/hello-world
           gcloud functions deploy hello-world \
@@ -47,5 +41,4 @@ jobs:
             --source=. \
             --entry-point=HelloWorld \
             --trigger-http \
-            --allow-unauthenticated \
-            --quiet 
+            --allow-unauthenticated 

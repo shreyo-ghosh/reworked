@@ -37,7 +37,7 @@ jobs:
           gcloud functions deploy hello-world \
             --project ${{ env.PROJECT_ID }} \
             --region ${{ env.REGION }} \
-            --runtime go120 \
+            --runtime go122 \
             --entry-point HelloWorld \
             --trigger-http \
             --allow-unauthenticated \

@@ -7,14 +7,17 @@ on:
     paths:
       - 'functions/hello-world/**'
       - '.github/workflows/deploy.yml'
+  workflow_dispatch:
 
 permissions:
   contents: read
   id-token: write
 
 env:
-  PROJECT_ID: calm-cab-458210-t2
+  PROJECT_ID: 1090868196867
   REGION: us-central1
+  FUNCTION_NAME: hello-world
+  RUNTIME: go121
 
 jobs:
   deploy:
@@ -28,11 +31,8 @@ jobs:
         name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
-          create_credentials_file: true
-          workload_identity_provider: projects/857835268341/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider
-          service_account: cloud-functions-deployer-new@calm-cab-458210-t2.iam.gserviceaccount.com
-          token_format: access_token
-          access_token_lifetime: 3600s
+          workload_identity_provider: 'projects/${{ env.PROJECT_ID }}/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider'
+          service_account: 'github-actions@shreyolab.iam.gserviceaccount.com'
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
@@ -42,14 +42,13 @@ jobs:
       - name: Deploy Cloud Function
         run: |
           cd functions/hello-world
-          gcloud functions deploy hello-world \
+          gcloud functions deploy ${{ env.FUNCTION_NAME }} \
             --gen2 \
-            --runtime=go122 \
+            --runtime=${{ env.RUNTIME }} \
             --region=${{ env.REGION }} \
             --source=. \
             --entry-point=HelloWorld \
             --trigger-http \
             --allow-unauthenticated \
-            --quiet \
-            --service-account=cloud-functions-deployer-new@calm-cab-458210-t2.iam.gserviceaccount.com
+            --quiet
             

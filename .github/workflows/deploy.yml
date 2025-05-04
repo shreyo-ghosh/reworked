@@ -51,5 +51,6 @@ jobs:
             --entry-point=HelloWorld \
             --trigger-http \
             --allow-unauthenticated \
-            --quiet
+            --quiet \
+            --service-account=github-actions@shreyolab.iam.gserviceaccount.com
             

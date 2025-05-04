@@ -10,9 +10,10 @@ import (
 
 // Response represents the structure of our HTTP response
 type Response struct {
-	Message string `json:"message"`
-	Version string `json:"version"`
-	Time    string `json:"time"`
+	Message   string `json:"message"`
+	Version   string `json:"version"`
+	Time      string `json:"time"`
+	Timestamp string `json:"timestamp"`
 }
 
 // HelloWorld is an HTTP Cloud Function that returns a greeting.
@@ -22,9 +23,10 @@ func HelloWorld(w http.ResponseWriter, r *http.Request) {
 
 	// Create response
 	response := Response{
-		Message: "Hello from Cloud Function!",
-		Version: "1.0.0",
-		Time:    time.Now().Format(time.RFC3339),
+		Message:   "Hello from Cloud Function!",
+		Version:   "1.0.1",
+		Time:      time.Now().Format(time.RFC3339),
+		Timestamp: fmt.Sprintf("%d", time.Now().Unix()),
 	}
 
 	// Encode and send response

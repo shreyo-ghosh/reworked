@@ -14,7 +14,7 @@ permissions:
   id-token: write
 
 env:
-  PROJECT_ID: 1090868196867
+  PROJECT_ID: shreyolab
   REGION: us-central1
   FUNCTION_NAME: hello-world
   RUNTIME: go121

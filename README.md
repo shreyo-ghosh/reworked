@@ -20,8 +20,8 @@ A command line tool for deploying and managing GCP Cloud Functions with automate
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/Carbonquest-assignment.git
-cd Carbonquest-assignment
+git clone https://github.com/shreyo-ghosh/reworked.git
+cd reworked
 ```
 
 2. Install dependencies:
@@ -53,7 +53,7 @@ Options:
 
 ## GitHub Actions Setup
 
-1. Create a new GitHub repository named "Carbonquest-assignment"
+1. Create a new GitHub repository named "reworked"
 
 2. Add GCP credentials to GitHub Secrets:
    - Go to your repository settings
@@ -67,7 +67,7 @@ git init
 git add .
 git commit -m "Initial commit"
 git branch -M main
-git remote add origin https://github.com/yourusername/Carbonquest-assignment.git
+git remote add origin https://github.com/shreyo-ghosh/reworked.git
 git push -u origin main
 ```
 
@@ -87,3 +87,6 @@ go test -v ./...
 ## License
 
 MIT License
+
+
+,

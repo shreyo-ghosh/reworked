@@ -21,7 +21,7 @@ A command line tool for deploying and managing GCP Cloud Functions with automate
 1. Clone the repository:
 ```bash
 git clone https://github.com/shreyo-ghosh/reworked.git
-cd reworked
+cd reworked 
 ```
 
 2. Install dependencies:

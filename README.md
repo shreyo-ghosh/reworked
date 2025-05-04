@@ -7,6 +7,7 @@ A Go-based tool for deploying and managing Google Cloud Functions.
 - Deploy Cloud Functions to different environments (sandbox, dev, pro)
 - Simple command-line interface
 - GitHub Actions integration for automated deployments
+- Uses Compute Engine default service account for deployment
 
 ## Prerequisites
 
@@ -14,6 +15,7 @@ A Go-based tool for deploying and managing Google Cloud Functions.
 - Google Cloud SDK
 - A Google Cloud project with Cloud Functions API enabled
 - GitHub repository with Workload Identity Federation configured
+- Compute Engine default service account (1090868196867-compute@developer.gserviceaccount.com)
 
 ## Setup
 
@@ -31,7 +33,6 @@ A Go-based tool for deploying and managing Google Cloud Functions.
 3. Configure GitHub Secrets:
    - `GCP_PROJECT_ID`: Your Google Cloud project ID
    - `GCP_WORKLOAD_IDENTITY_PROVIDER`: The full identifier of your Workload Identity Provider
-   - `GCP_SERVICE_ACCOUNT`: The email of your service account
 
 ## Local Development
 
@@ -46,7 +47,7 @@ The function will be available at `http://localhost:8080`.
 
 ## Deployment
 
-The application is automatically deployed to Google Cloud Functions when changes are pushed to the main branch. The deployment is handled by GitHub Actions.
+The application is automatically deployed to Google Cloud Functions when changes are pushed to the main branch. The deployment is handled by GitHub Actions using the Compute Engine default service account.
 
 ### Manual Deployment
 

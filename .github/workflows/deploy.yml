@@ -9,7 +9,7 @@ on:
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   REGION: us-central1
-  SERVICE_ACCOUNT: 1090868196867-compute@developer.gserviceaccount.com
+  SERVICE_ACCOUNT: cloud-functions-deployer@calm-cab-458210-t2.iam.gserviceaccount.com
 
 jobs:
   deploy:

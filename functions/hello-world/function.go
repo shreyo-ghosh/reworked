@@ -1,9 +1,1 @@
-package function
-
-import (
-    "net/http"
-)
-
-func HelloWorld(w http.ResponseWriter, r *http.Request) {
-    w.Write([]byte("Hello, World!"))
-}
+package hello; import ("fmt"; "net/http"; "time"); func HelloWorld(w http.ResponseWriter, r *http.Request) { fmt.Fprintf(w, "Hello, World! Updated at %s", time.Now().Format(time.RFC3339)) }

@@ -2,9 +2,9 @@ name: Deploy to GCP Cloud Functions
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, master ]
 
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}

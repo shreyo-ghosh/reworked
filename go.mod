@@ -1,8 +1,9 @@
-module carbonquest
+module github.com/shreyo-ghosh/reworked
 
 go 1.22
 
 require (
+	github.com/GoogleCloudPlatform/functions-framework-go v1.8.1
 	github.com/spf13/cobra v1.8.0
 	github.com/stretchr/testify v1.9.0
 )

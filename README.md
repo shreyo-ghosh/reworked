@@ -1,89 +1,61 @@
-# CarbonQuest GCP Cloud Function Deployment Tool
+# Cloud Function Deployment Tool
 
-A command line tool for deploying and managing GCP Cloud Functions with automated CI/CD pipeline.
+A Go-based tool for deploying and managing Google Cloud Functions.
 
 ## Features
 
-- Deploy cloud functions to different environments (sandbox, dev, pro)
-- Get detailed information about deployed functions
-- Automated testing and deployment through GitHub Actions
-- Support for versioning and clean builds
+- Deploy Cloud Functions to different environments (sandbox, dev, pro)
+- Simple command-line interface
+- GitHub Actions integration for automated deployments
 
 ## Prerequisites
 
-- Go 1.21 or later
+- Go 1.22 or later
 - Google Cloud SDK
-- GCP project with Cloud Functions API enabled
-- GitHub repository with GCP credentials configured
+- A Google Cloud project with Cloud Functions API enabled
+- GitHub repository with Workload Identity Federation configured
 
-## Installation
+## Setup
 
 1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/Carbonquest-assignment.git
-cd Carbonquest-assignment
-```
+   ```bash
+   git clone https://github.com/shreyo-ghosh/reworked.git
+   cd reworked
+   ```
 
 2. Install dependencies:
+   ```bash
+   go mod tidy
+   ```
+
+3. Configure GitHub Secrets:
+   - `GCP_PROJECT_ID`: Your Google Cloud project ID
+   - `GCP_WORKLOAD_IDENTITY_PROVIDER`: The full identifier of your Workload Identity Provider
+   - `GCP_SERVICE_ACCOUNT`: The email of your service account
+
+## Local Development
+
+To run the hello-world function locally:
+
 ```bash
-go mod download
+cd functions/hello-world
+go run main.go
 ```
 
-3. Build the tool:
+The function will be available at `http://localhost:8080`.
+
+## Deployment
+
+The application is automatically deployed to Google Cloud Functions when changes are pushed to the main branch. The deployment is handled by GitHub Actions.
+
+### Manual Deployment
+
+To deploy manually:
+
 ```bash
-go build -o gcptool cmd/gcptool/main.go
+go run cmd/gcptool/main.go deploy hello-world --env sandbox
 ```
-
-## Usage
-
-### Deploy a Function
-```bash
-./gcptool deploy <function-name> -e <environment> -v <revision> -c
-```
-
-Options:
-- `-e, --environment`: Target environment (sandbox, dev, pro)
-- `-v, --revision`: Version/revision number
-- `-c, --clean`: Clean and rebuild before deploying
-
-### Describe a Function
-```bash
-./gcptool describe <function-name>
-```
-
-## GitHub Actions Setup
-
-1. Create a new GitHub repository named "Carbonquest-assignment"
-
-2. Add GCP credentials to GitHub Secrets:
-   - Go to your repository settings
-   - Navigate to Secrets and Variables > Actions
-   - Add a new secret named `GCP_CREDENTIALS`
-   - Paste your GCP service account key JSON
-
-3. Push your code to the repository:
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin https://github.com/yourusername/Carbonquest-assignment.git
-git push -u origin main
-```
-
-## Development
-
-### Running Tests
-```bash
-go test -v ./...
-```
-
-### Adding New Features
-1. Create a new branch
-2. Make your changes
-3. Run tests
-4. Create a pull request
 
 ## License
 
-MIT License.
+MIT

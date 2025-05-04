@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os/exec"
 	"path/filepath"
-	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -18,24 +17,6 @@ type CommandExecutor interface {
 type RealCommandExecutor struct{}
 
 func (e *RealCommandExecutor) Execute(name string, args ...string) ([]byte, error) {
-	if name == "gcloud" {
-		// Use the full path to gcloud.ps1
-		gcloudPath := "C:\\Program Files (x86)\\Google\\Cloud SDK\\google-cloud-sdk\\bin\\gcloud.ps1"
-		psArgs := []string{
-			"-NoProfile",
-			"-NonInteractive",
-			"-Command",
-			"& { " + gcloudPath + " " + strings.Join(args, " ") + " }",
-		}
-		fmt.Printf("Running PowerShell command: powershell.exe %s\n", strings.Join(psArgs, " "))
-		cmd := exec.Command("powershell.exe", psArgs...)
-		output, err := cmd.CombinedOutput()
-		if err != nil {
-			fmt.Printf("PowerShell error: %v\n", err)
-			fmt.Printf("PowerShell output: %s\n", string(output))
-		}
-		return output, err
-	}
 	cmd := exec.Command(name, args...)
 	return cmd.CombinedOutput()
 }
